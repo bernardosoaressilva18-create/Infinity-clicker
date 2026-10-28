@@ -22,13 +22,13 @@ class MainActivity : Activity() {
         webView.setBackgroundColor(Color.rgb(8, 10, 25))
         webView.settings.javaScriptEnabled = true
         webView.settings.domStorageEnabled = true
-        webView.settings.allowFileAccess = false
+        webView.settings.allowFileAccess = true
         webView.settings.allowContentAccess = false
         webView.webViewClient = WebViewClient()
         webView.webChromeClient = WebChromeClient()
         setContentView(webView)
         if (savedInstanceState != null) webView.restoreState(savedInstanceState)
-        else webView.loadUrl("https://infinity-clicker.onrender.com/")
+        else webView.loadUrl("file:///android_asset/public/index.html")
     }
     override fun onSaveInstanceState(outState: Bundle) {
         webView.saveState(outState)
