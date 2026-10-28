@@ -3,6 +3,7 @@
   "short_name": "Infinity",
   "start_url": "/",
   "display": "standalone",
+  "orientation": "landscape",
   "background_color": "#164b2e",
   "theme_color": "#176d3d",
   "icons": [
