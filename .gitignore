@@ -1,4 +1,14 @@
-node_modules/
-.env
+# Android/Gradle
+.gradle/
+**/build/
+local.properties
+*.iml
+.idea/
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+# Sistema/editor
 .DS_Store
-npm-debug.log*
+Thumbs.db
