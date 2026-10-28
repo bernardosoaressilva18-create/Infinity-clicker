@@ -18,19 +18,12 @@ android {
         targetCompatibility JavaVersion.VERSION_17
     }
     kotlinOptions { jvmTarget = '17' }
-    signingConfigs {
-        release {
-            storeFile file(System.getenv('ANDROID_KEYSTORE_FILE') ?: 'ci-release.jks')
-            storePassword System.getenv('ANDROID_KEYSTORE_PASSWORD') ?: 'temporary-build-only'
-            keyAlias System.getenv('ANDROID_KEY_ALIAS') ?: 'infinity-clicker'
-            keyPassword System.getenv('ANDROID_KEY_PASSWORD') ?: 'temporary-build-only'
-        }
-    }
     buildTypes {
         debug { debuggable true }
+        // Release intentionally has no embedded or temporary signing credentials.
+        // Configure a persistent, privately stored release keystore before distribution.
         release {
             minifyEnabled false
-            signingConfig signingConfigs.release
         }
     }
 }
