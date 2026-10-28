@@ -28,7 +28,7 @@ class MainActivity : Activity() {
         webView.webChromeClient = WebChromeClient()
         setContentView(webView)
         if (savedInstanceState != null) webView.restoreState(savedInstanceState)
-        else webView.loadUrl("file:///android_asset/public/index.html")
+        else webView.loadUrl("https://infinity-clicker.onrender.com/")
     }
     override fun onSaveInstanceState(outState: Bundle) {
         webView.saveState(outState)
