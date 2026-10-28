@@ -12,6 +12,9 @@ permissions:
 jobs:
   build-apk:
     runs-on: ubuntu-latest
+    env:
+      ANDROID_HOME: /usr/local/lib/android/sdk
+      ANDROID_SDK_ROOT: /usr/local/lib/android/sdk
     steps:
       - name: Baixar código
         uses: actions/checkout@v4
@@ -20,10 +23,14 @@ jobs:
         with:
           distribution: temurin
           java-version: '17'
-      - name: Preparar Android SDK
-        uses: android-actions/setup-android@v3
+      - name: Verificar Android SDK
+        run: |
+          test -x "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" || find "$ANDROID_HOME/cmdline-tools" -name sdkmanager -type f
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -name sdkmanager -type f | sort -V | tail -n 1)"
+          echo "SDKMANAGER=$SDKMANAGER" >> "$GITHUB_ENV"
       - name: Instalar SDK 35
-        run: sdkmanager "platforms;android-35" "build-tools;35.0.0"
+        run: |
+          "$SDKMANAGER" --sdk_root="$ANDROID_HOME" "platforms;android-35" "build-tools;35.0.0"
       - name: Instalar Gradle 8.9
         run: |
           curl --fail --location --retry 3 https://services.gradle.org/distributions/gradle-8.9-bin.zip -o /tmp/gradle.zip
