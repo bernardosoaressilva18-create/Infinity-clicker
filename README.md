@@ -26,8 +26,10 @@ O progresso é salvo no `localStorage` do navegador/dispositivo. O ganho offline
 3. Selecione **Build > Build Bundle(s) / APK(s) > Build APK(s)**.
 4. O APK de teste ficará em `android/app/build/outputs/apk/debug/app-debug.apk`.
 
-## APK pelo GitHub Actions
-Depois que o workflow concluir, abra **Actions** → **Gerar APK do Infinity Clicker** → execução mais recente → baixe o artefato `infinity-clicker-apk`. Extraia o ZIP para obter `app-debug.apk`. É um APK de depuração para testes; publicar na Play Store exige assinatura de lançamento.
+## APK de teste pelo GitHub Actions
+O workflow **Gerar APK de teste do Infinity Clicker** compila um APK de depuração (`app-debug.apk`) e guarda-o como artefato por 30 dias. Abra **Actions** → execução concluída → **Artifacts** → `infinity-clicker-apk-debug`. Esse APK é para testes, não é uma versão de lançamento para a Play Store. O workflow copia os arquivos atuais de `public/` para os assets Android antes da compilação.
+
+A chave de depuração é gerenciada pela ferramenta Android e não deve ser usada como assinatura de lançamento. Para distribuir atualizações permanentes, configure uma chave de lançamento própria e guarde-a com segurança; não use uma chave temporária gerada a cada execução.
 
 ## Render
 A hospedagem web atual do repositório foi mantida. O APK carrega os arquivos do jogo localmente e funciona sem internet para as mecânicas incluídas.
