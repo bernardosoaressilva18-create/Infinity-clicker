@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title">
+<title id="title">Infinity Clicker</title>
+<defs>
+  <linearGradient id="grass" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#4b9b45"/><stop offset="1" stop-color="#1c6738"/></linearGradient>
+  <linearGradient id="red" x1="0" y1="0" x2="0.15" y2="1"><stop stop-color="#ff6558"/><stop offset=".42" stop-color="#ed302b"/><stop offset="1" stop-color="#a91620"/></linearGradient>
+  <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fff0a2"/><stop offset=".5" stop-color="#e5b83d"/><stop offset="1" stop-color="#9b651b"/></linearGradient>
+  <linearGradient id="side" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#a91c22"/><stop offset="1" stop-color="#64151c"/></linearGradient>
+  <filter id="shadow" x="-30%" y="-30%" width="160%" height="180%"><feGaussianBlur stdDeviation="12"/></filter>
+  <clipPath id="round"><rect width="512" height="512" rx="94"/></clipPath>
+</defs>
+<g clip-path="url(#round)">
+  <rect width="512" height="512" fill="url(#grass)"/>
+  <g opacity=".23" stroke="#b9df8c" stroke-width="3">
+    <path d="M0 0H512M0 128H512M0 256H512M0 384H512M0 512H512M0 0V512M128 0V512M256 0V512M384 0V512M512 0V512"/>
+  </g>
+  <g opacity=".16" fill="#b9e58b">
+    <path d="M0 0h128v128H0zM256 128h128v128H256zM128 256h128v128H128zM384 384h128v128H384z"/>
+  </g>
+  <ellipse cx="256" cy="360" rx="152" ry="37" fill="#092c1c" opacity=".5" filter="url(#shadow)"/>
+  <path d="M113 267Q113 239 142 231L370 231Q399 239 399 267L399 331Q399 359 370 367L142 367Q113 359 113 331Z" fill="url(#side)" stroke="#76171d" stroke-width="5"/>
+  <path d="M113 258Q113 229 142 221H370Q399 229 399 258V296Q399 325 370 333H142Q113 325 113 296Z" fill="url(#red)" stroke="#ff8675" stroke-width="5"/>
+  <path d="M142 237H365Q378 239 382 250" fill="none" stroke="#ffb0a0" stroke-width="7" stroke-linecap="round" opacity=".8"/>
+  <path d="M145 326Q256 347 367 326" fill="none" stroke="#7b121b" stroke-width="5" opacity=".7"/>
+  <path d="M192 174C155 139 124 167 145 192C166 217 203 188 231 165C261 141 288 125 311 146C342 174 316 201 293 194C274 188 265 175 256 167" fill="none" stroke="#5a3b0d" stroke-width="23" stroke-linecap="round" stroke-linejoin="round" transform="translate(0 4)"/>
+  <path d="M192 174C155 139 124 167 145 192C166 217 203 188 231 165C261 141 288 125 311 146C342 174 316 201 293 194C274 188 265 175 256 167" fill="none" stroke="url(#gold)" stroke-width="17" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M151 168C158 158 173 160 180 169M302 146C312 146 319 154 319 163" fill="none" stroke="#fff4bd" stroke-width="3.5" stroke-linecap="round" opacity=".8"/>
+  <path d="M256 98l8 17 19 3-14 13 3 19-16-9-17 9 4-19-14-13 19-3z" fill="#d9a932" opacity=".95"/>
+  <circle cx="256" cy="124" r="4" fill="#fff0a1"/>
+</g>
+</svg>
