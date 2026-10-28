@@ -1,4 +1,4 @@
-name: Gerar APK do Infinity Clicker
+name: Gerar APK de teste do Infinity Clicker
 on:
   workflow_dispatch:
   push:
@@ -12,13 +12,10 @@ permissions:
 jobs:
   build-apk:
     runs-on: ubuntu-latest
+    timeout-minutes: 25
     env:
       ANDROID_HOME: /usr/local/lib/android/sdk
       ANDROID_SDK_ROOT: /usr/local/lib/android/sdk
-      ANDROID_KEY_ALIAS: infinity-clicker
-      ANDROID_KEYSTORE_FILE: ${{ github.workspace }}/android/ci-release.jks
-      ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD || 'temporary-build-only' }}
-      ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD || 'temporary-build-only' }}
     steps:
       - name: Baixar código
         uses: actions/checkout@v4
@@ -31,21 +28,22 @@ jobs:
         uses: android-actions/setup-android@v3
       - name: Instalar SDK 35
         run: sdkmanager "platforms;android-35" "build-tools;35.0.0"
-      - name: Criar chave temporária de assinatura
+      - name: Sincronizar arquivos atuais do jogo para o APK
         run: |
-          keytool -genkeypair -v -keystore "$ANDROID_KEYSTORE_FILE" -storepass "$ANDROID_KEYSTORE_PASSWORD" -keypass "$ANDROID_KEY_PASSWORD" -alias "$ANDROID_KEY_ALIAS" -keyalg RSA -keysize 2048 -validity 3650 -dname "CN=Infinity Clicker Test, OU=Development, O=Infinity Clicker, L=NA, ST=NA, C=BR"
+          mkdir -p android/app/src/main/assets/public
+          cp -a public/. android/app/src/main/assets/public/
       - name: Instalar Gradle 8.9
         run: |
           curl --fail --location --retry 3 https://services.gradle.org/distributions/gradle-8.9-bin.zip -o /tmp/gradle.zip
           unzip -q /tmp/gradle.zip -d /tmp
           echo "/tmp/gradle-8.9/bin" >> "$GITHUB_PATH"
-      - name: Compilar APK de release
+      - name: Compilar APK de depuração
         working-directory: android
-        run: gradle --no-daemon assembleRelease
+        run: gradle --no-daemon --stacktrace clean assembleDebug
       - name: Guardar APK como artefato
         uses: actions/upload-artifact@v4
         with:
-          name: infinity-clicker-apk-release
-          path: android/app/build/outputs/apk/release/app-release.apk
+          name: infinity-clicker-apk-debug
+          path: android/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
           retention-days: 30
