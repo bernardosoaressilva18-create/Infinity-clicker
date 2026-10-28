@@ -15,6 +15,10 @@ jobs:
     env:
       ANDROID_HOME: /usr/local/lib/android/sdk
       ANDROID_SDK_ROOT: /usr/local/lib/android/sdk
+      ANDROID_KEY_ALIAS: infinity-clicker
+      ANDROID_KEYSTORE_FILE: ${{ github.workspace }}/android/ci-release.jks
+      ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD || 'temporary-build-only' }}
+      ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD || 'temporary-build-only' }}
     steps:
       - name: Baixar código
         uses: actions/checkout@v4
@@ -23,26 +27,25 @@ jobs:
         with:
           distribution: temurin
           java-version: '17'
-      - name: Verificar Android SDK
-        run: |
-          test -x "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" || find "$ANDROID_HOME/cmdline-tools" -name sdkmanager -type f
-          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -name sdkmanager -type f | sort -V | tail -n 1)"
-          echo "SDKMANAGER=$SDKMANAGER" >> "$GITHUB_ENV"
+      - name: Preparar Android SDK
+        uses: android-actions/setup-android@v3
       - name: Instalar SDK 35
+        run: sdkmanager "platforms;android-35" "build-tools;35.0.0"
+      - name: Criar chave temporária de assinatura
         run: |
-          "$SDKMANAGER" --sdk_root="$ANDROID_HOME" "platforms;android-35" "build-tools;35.0.0"
+          keytool -genkeypair -v -keystore "$ANDROID_KEYSTORE_FILE" -storepass "$ANDROID_KEYSTORE_PASSWORD" -keypass "$ANDROID_KEY_PASSWORD" -alias "$ANDROID_KEY_ALIAS" -keyalg RSA -keysize 2048 -validity 3650 -dname "CN=Infinity Clicker Test, OU=Development, O=Infinity Clicker, L=NA, ST=NA, C=BR"
       - name: Instalar Gradle 8.9
         run: |
           curl --fail --location --retry 3 https://services.gradle.org/distributions/gradle-8.9-bin.zip -o /tmp/gradle.zip
           unzip -q /tmp/gradle.zip -d /tmp
           echo "/tmp/gradle-8.9/bin" >> "$GITHUB_PATH"
-      - name: Compilar APK
+      - name: Compilar APK de release
         working-directory: android
-        run: gradle --no-daemon assembleDebug
+        run: gradle --no-daemon assembleRelease
       - name: Guardar APK como artefato
         uses: actions/upload-artifact@v4
         with:
-          name: infinity-clicker-apk
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+          name: infinity-clicker-apk-release
+          path: android/app/build/outputs/apk/release/app-release.apk
           if-no-files-found: error
           retention-days: 30
