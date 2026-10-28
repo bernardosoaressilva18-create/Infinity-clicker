@@ -7,11 +7,16 @@ import android.webkit.WebViewClient
 import android.webkit.WebChromeClient
 import android.view.ViewGroup
 import android.graphics.Color
+import android.content.pm.ActivityInfo
+import android.view.View
 
 class MainActivity : Activity() {
     private lateinit var webView: WebView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+        hideSystemBars()
+        window.decorView.setOnSystemUiVisibilityChangeListener { hideSystemBars() }
         window.statusBarColor = Color.rgb(8, 10, 25)
         window.navigationBarColor = Color.rgb(8, 10, 25)
         webView = WebView(this)
@@ -29,6 +34,16 @@ class MainActivity : Activity() {
         setContentView(webView)
         if (savedInstanceState != null) webView.restoreState(savedInstanceState)
         else webView.loadUrl("https://infinity-clicker.onrender.com/")
+    }
+    private fun hideSystemBars() {
+        window.decorView.systemUiVisibility = (
+            View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                or View.SYSTEM_UI_FLAG_FULLSCREEN
+                or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+            )
     }
     override fun onSaveInstanceState(outState: Bundle) {
         webView.saveState(outState)
