@@ -1,0 +1,13 @@
+{
+  "name": "Infinity Clicker",
+  "short_name": "Infinity",
+  "description": "Clique, acumule moedas e conquiste novos mundos.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#176d3d",
+  "theme_color": "#176d3d",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
