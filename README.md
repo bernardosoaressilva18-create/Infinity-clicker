@@ -1,34 +1,33 @@
-# Infinity Clicker
+# Infinity Clicker — Web + Android
 
-A responsive cosmic 2D clicker game built with HTML/CSS/JavaScript, Node.js, Express and PostgreSQL.
+Projeto em várias tecnologias:
+- `public/index.html`: estrutura da tela.
+- `public/styles.css`: visual e layout mobile-first.
+- `public/game.js`: mecânicas, mundos, baús, loja, renascimento e salvamento local.
+- `python/run.py`: servidor de desenvolvimento local em Python, sem dependências externas.
+- `python/check_project.py`: verificações estáticas do projeto.
+- `android/`: aplicativo Android em Kotlin que abre o jogo offline.
+- `.github/workflows/build-android-apk.yml`: compila o APK de teste no GitHub Actions quando o jogo ou o projeto Android mudar na branch `main`.
 
-## Run locally
+## Testar no PC
+Requer Python 3.10+. Execute:
 
-Requirements: Node.js 20+ and PostgreSQL.
+```bash
+python python/run.py
+```
 
-1. Create a PostgreSQL database.
-2. Set environment variables:
-   - `DATABASE_URL`: PostgreSQL connection string
-   - `JWT_SECRET`: a long random secret (never commit this)
-   - `NODE_ENV=production` when deploying
-3. Run `npm install`, then `npm start`.
-4. Open `http://localhost:3000`.
+Abra http://127.0.0.1:8000. Para verificar a estrutura e mecânicas, execute `python python/check_project.py`; para a sintaxe JS, execute `node --check public/game.js`.
 
-The server creates the `players` table on startup.
+O progresso é salvo no `localStorage` do navegador/dispositivo. O ganho offline é limitado a 8 horas.
 
-## Deploy on Render
+## Compilar APK no Android Studio
+1. Abra a pasta `android` no Android Studio.
+2. Instale Android SDK 35 se solicitado e aguarde a sincronização do Gradle.
+3. Selecione **Build > Build Bundle(s) / APK(s) > Build APK(s)**.
+4. O APK de teste ficará em `android/app/build/outputs/apk/debug/app-debug.apk`.
 
-This repository includes `render.yaml` for a Node Web Service and PostgreSQL database. In Render, choose **New + → Blueprint**, connect this repository, and select the branch `feature/loot-system`. Review the services and database before applying. Render will configure `DATABASE_URL` and generate `JWT_SECRET`.
+## APK pelo GitHub Actions
+Depois que o workflow concluir, abra **Actions** → **Gerar APK do Infinity Clicker** → execução mais recente → baixe o artefato `infinity-clicker-apk`. Extraia o ZIP para obter `app-debug.apk`. É um APK de depuração para testes; publicar na Play Store exige assinatura de lançamento.
 
-If the free database plan is unavailable for your account or region, choose an available PostgreSQL plan in Render. Do not paste secrets into source files or commit a `.env` file.
-
-## Included in the first version
-
-- Account registration and login with bcrypt password hashing and signed JWTs
-- Server-side click rewards, upgrade costs, automatic income and rebirth validation
-- PostgreSQL save data and global lifetime-energy ranking
-- Responsive horizontal-friendly cosmic interface
-
-## Notes
-
-The browser token is stored locally on the device. Use HTTPS in production. The server is authoritative for currency and upgrade costs; as with any online game, further anti-abuse controls and automated tests should be added before treating the leaderboard as competitive or tamper-proof.
+## Render
+A hospedagem web atual do repositório foi mantida. O APK carrega os arquivos do jogo localmente e funciona sem internet para as mecânicas incluídas.
